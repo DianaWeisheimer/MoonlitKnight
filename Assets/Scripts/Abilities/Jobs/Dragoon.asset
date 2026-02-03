@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2624a86e141c3944f8a88bdfb0263567, type: 3}
+  m_Name: Dragoon
+  m_EditorClassIdentifier: 
+  jobName: Knight
+  jobDescription: KKnooooght
+  rightHandType: 000000000100000006000000
+  leftHandType: 08000000
+  armorTypes: 0000000001000000
+  statMultiplier:
+  - modifier: 0
+    multiplier: 10
+  - modifier: 0
+    multiplier: 5
+  - modifier: 0
+    multiplier: 15
+  - modifier: 0
+    multiplier: 10
+  abilityUnlock:
+  - AbilitySO: {fileID: 11400000, guid: 4f526641a0c242541a7040a8f3b9943e, type: 2}
+    unlockLevel: 0
+  levelingTree: {fileID: 2356362721469421307, guid: 936efde9537fb0043bb6155c87ef54cd,
+    type: 3}

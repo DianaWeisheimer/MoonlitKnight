@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cab79cfb2b51040909d0bb8d116c80, type: 3}
+  m_Name: ThrowingKnives
+  m_EditorClassIdentifier: 
+  abilityIcon: {fileID: 782939165, guid: ba862ba01de70f24fa04c60f6a453f1b, type: 3}
+  abilityName: Throwing Knives
+  abilityDescription: 
+  animatorOverrideController: {fileID: 22100000, guid: 85557881fc76949489691f37286ea165,
+    type: 2}
+  healthCost: 0
+  manaCost: 20
+  staminaCost: 20
+  cooldownTime: 8
+  activeTime: 0
+  isChargeable: 0
+  maxChargeTime: 0
+  dagger: {fileID: 8947107825133034485, guid: e391eb8204d317940af37adb518a5f27, type: 3}

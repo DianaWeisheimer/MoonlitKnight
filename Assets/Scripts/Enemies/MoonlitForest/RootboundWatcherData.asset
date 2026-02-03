@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27e539c9ecb45e4d8b3dbe50828fed6, type: 3}
+  m_Name: RootboundWatcherData
+  m_EditorClassIdentifier: 
+  characterName: Rootbound Watcher
+  baseStats: {fileID: 11400000, guid: 33ec8c2e009abe24caf2098c15b98e7f, type: 2}
+  characterType: 2
+  characterModel: {fileID: 162832731709595679, guid: e848d0c7df667614aaae625e2cdfe4fd,
+    type: 3}
+  brain: {fileID: 5302059419219103193, guid: d9a9baeee2c252e49ac6785d55608933, type: 3}

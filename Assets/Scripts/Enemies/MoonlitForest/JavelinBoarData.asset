@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27e539c9ecb45e4d8b3dbe50828fed6, type: 3}
+  m_Name: JavelinBoarData
+  m_EditorClassIdentifier: 
+  characterName: Javelin Boar
+  baseStats: {fileID: 11400000, guid: 9a1149de4ac94c548b98711ad894f7bc, type: 2}
+  characterType: 2
+  characterModel: {fileID: 5960911600319814366, guid: bdddb2cb94c04f54597b13984f978079,
+    type: 3}
+  brain: {fileID: 5919092699330765691, guid: fbabaaa01302ae94ba05263c92d9cdce, type: 3}

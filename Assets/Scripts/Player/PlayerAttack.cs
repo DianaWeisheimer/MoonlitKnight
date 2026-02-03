@@ -5,94 +5,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Player player;
-    public Animator animator;
-    public bool attacking;
-    public bool attackable;
-    public Weapon weapon;
-    public int comboIndex;
-    public float attackDelay;
+    private Player player;
+    public AnimationEvents animationEvents;
 
-    void Start()
+    public void Initialize(Player _player, AnimationEvents _animationEvents)
     {
-        comboIndex = 0;
-        attacking = false;
-        attackable = true;
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        player = _player;
+        animationEvents = _animationEvents; 
+        animationEvents.WeaponCollider += SetWeaponCollider;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetWeaponCollider(bool hehe, bool rightHand)
     {
-        
+        player.character.equipment.SetWeaponCollider(hehe, rightHand);
     }
 
-    public void OnMouse1(InputAction.CallbackContext context)
+    public void OnDisable()
     {
-        if (context.performed)
-        {
-            Attack();
-        }
-    }
-
-    public void Attack()
-    {
-        if (!attacking && attackable)
-        {
-            player.DrainStamina(-1);
-
-            animator.SetTrigger("Attack" + comboIndex.ToString());
-            //animator.SetTrigger("Attack0");
-            weapon.OnAttack();
-
-            StartCoroutine(AttackDelay());
-            AttackCombo();
-        }
-    }  
-
-    public IEnumerator AttackDelay()
-    {
-        float delay = 0.5f - (player.stats.dexterity * 0.009f);
-        attackable = false;
-        yield return new WaitForSeconds(delay);
-        attackable = true;
-    }
-
-    public void AttackCombo()
-    {
-        if(comboIndex <= 2)
-        {
-            comboIndex++;
-        }
-
-        else
-        {
-            comboIndex = 0;
-        }
-    }
-
-    public void StartCollider()
-    {
-        if (weapon)
-        {
-            weapon.StartCollider();
-        }
-    }
-
-    public void StopCollider()
-    {
-        if (weapon)
-        {
-            weapon.StopCollider();
-        }
-    }
-
-    public void Shoot()
-    {
-        if (weapon)
-        {
-            weapon.Shoot();
-        }
+        animationEvents.WeaponCollider -= SetWeaponCollider;
     }
 }

@@ -1,102 +1,106 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    public BaseCharacterStats baseStats;
-    public CharacterStats stats;
-    public bool hitable;
-    public PlayerHealthBar healthBar;
-    public PlayerInventoryController inventoryController;
-    public PlayerMovement movement;
+    private PlayerMovement playerMovement;
+    public PlayerCharacter character;
 
-    private void Awake()
+    public void Initialize(PlayerCharacter _character, PlayerMovement _movement)
     {
-        if (!healthBar) { healthBar = FindObjectOfType<PlayerHealthBar>(); }
-        stats.LoadBaseStats(baseStats);
-        hitable = true;
-        if (healthBar) { healthBar.UpdateHealthBar(stats); }
+        character = _character;
+        playerMovement = _movement;
     }
 
-    public void FixedUpdate()
+    private void Start()
     {
-        PassiveHealing();
+        character.hitable = true;
     }
 
-    public void PassiveHealing()
+    public void TakeHit(AttackStack attackStack, Vector3 hitPosition)
     {
-        stats.health += stats.vitality;
-        stats.stamina += stats.endurance;
-        stats.mana += stats.wisdom;
+        if (character.dead) return;
 
-        if(stats.health >= stats.maxHealth) { stats.health = stats.maxHealth; }
-        if(stats.stamina >= stats.maxStamina) { stats.stamina = stats.maxStamina; }
-        if(stats.mana >= stats.maxMana) { stats.mana = stats.maxMana; }
+        if (attackStack.bypassIFrames == false && !character.hitable) return;
 
-        healthBar.UpdateHealthBar(stats);
-    }
+        DamageStack stack = character.stats.TakeDamage(attackStack);
+        character.aggroTable.AddAggro(attackStack.attacker, stack.totalDamage);
+ 
+        if (stack.died) { Die(); }
+        //else if (stack.percentHealthLost > 20 + character.stats.GetStat(StatType.Poise).maxValue) { playerMovement.animator.SetTrigger("TakeHit"); }
+        else if (stack.staggered) { playerMovement.animator.SetTrigger("TakeHit"); }
 
-    public void DrainMana(int ammount)
-    {
-        stats.mana += ammount;
-    }
-
-    public void DrainStamina(int ammount)
-    {
-        stats.stamina += ammount;
-    }
-
-    public void Sprint(bool sprinting)
-    {
-        if (sprinting) { stats.endurance = stats.endurance / 2; }
-        else if (!sprinting) { stats.endurance = stats.endurance * 2; }
-    }
-
-    public void Meditate(bool meditating)
-    {
-        if (meditating)
+        if (attackStack.hitParticle)
         {
-            movement.meditating = true;
-            stats.vitality = stats.vitality * (2 + (stats.spirit * 0.1f));
-            stats.endurance = stats.endurance * (2 + (stats.spirit * 0.1f));
-            stats.wisdom = stats.wisdom * (2 + (stats.spirit * 0.1f));
+            Instantiate(attackStack.hitParticle, hitPosition, Quaternion.identity);
         }
 
-        else if (!meditating)
-        {
-            movement.meditating = false;
-            stats.vitality = stats.vitality / (2 + (stats.spirit * 0.1f));
-            stats.endurance = stats.endurance / (2 + (stats.spirit * 0.1f));
-            stats.wisdom = stats.wisdom / (2 + (stats.spirit * 0.1f));
-        }
+        StartCoroutine(IFrames(0.1f));       
     }
+
+    public void Die()
+    {
+        GameEventsManager.instance.combatEvents.PlayerDied();
+        playerMovement.animator.SetTrigger("Die");
+        playerMovement.FreezeMovement(true);
+        character.dead = true;
+        playerMovement.ChangeMovementType(1);
+    }
+
+    public IEnumerator IFrames(float frames)
+    {
+        character.hitable = false;
+        yield return new WaitForSeconds(frames);
+        character.hitable = true;
+    }
+
+    public void Respawn()
+    {
+        character.stats.SetCurrentValue();
+        playerMovement.animator.SetTrigger("Respawn");
+        character.dead = false;
+
+        character.stats.CalculateDerivedStats();
+
+        playerMovement.FreezeMovement(false);
+        playerMovement.ChangeMovementType(0);
+    }
+    /*public IEnumerator Respawn(Vector3 position)
+    {
+        character.stats.SetCurrentValue();
+        playerMovement.animator.SetTrigger("Respawn");
+        character.dead = false;
+        playerMovement.controller.transform.position = position;
+        character.stats.CalculateDerivedStats();
+        yield return new WaitForFixedUpdate();
+        playerMovement.FreezeMovement(false);
+        playerMovement.ChangeMovementType(0);
+    }
+
+    private IEnumerator RespawnTimer()
+    {
+        yield return new WaitForSeconds(6);
+
+        if (character.dead)
+        {
+            StartCoroutine(Respawn(Vector3.zero));
+        }
+    }*/
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("EnemyWeapon"))
+        if (other.CompareTag("Attack"))
         {
-            TakeDamage(other.GetComponent<Weapon>().damage);
+            AttackStack stack = other.GetComponent<AttackStack>();
+
+            if (stack == null || stack.enabled == false) return;
+
+            if (stack.attacker.type == CharacterType.Enemy)
+            {
+                TakeHit(other.GetComponent<AttackStack>(), other.ClosestPoint(transform.position));
+            }
         }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        float damageTaken = damage - stats.defense;
-        if (damageTaken < 0) { damageTaken = 0; }
-        stats.health -= damageTaken;
-
-        if (healthBar) { healthBar.UpdateHealthBar(stats); }
-        if (healthBar) { healthBar.UpdateDamageText(damageTaken); }
-
-        StartCoroutine(InvincibilityFrames());
-    }
-
-    public IEnumerator InvincibilityFrames()
-    {
-        hitable = false;
-        yield return new WaitForSeconds(0.1f);
-        hitable = true;
     }
 }

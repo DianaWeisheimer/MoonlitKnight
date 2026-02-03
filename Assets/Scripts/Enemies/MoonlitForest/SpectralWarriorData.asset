@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27e539c9ecb45e4d8b3dbe50828fed6, type: 3}
+  m_Name: SpectralWarriorData
+  m_EditorClassIdentifier: 
+  characterName: Spectral Warrior
+  baseStats: {fileID: 11400000, guid: 7b0b3fe0a8ebb4046b2e29c1871b50c8, type: 2}
+  characterType: 2
+  characterModel: {fileID: 9195874179072053707, guid: b17e8137682fe844c881cd3f4559ebd0,
+    type: 3}
+  brain: {fileID: 4147340417672839684, guid: 701d3af8f4fdc204a9d63e467b35ce31, type: 3}

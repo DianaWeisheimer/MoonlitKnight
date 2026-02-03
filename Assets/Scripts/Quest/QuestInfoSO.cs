@@ -2,24 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewQuest", menuName = "Quest")]
+[CreateAssetMenu(fileName = "QuestInfoSO", menuName = "Quest/QuestInfo")]
 public class QuestInfoSO : ScriptableObject
 {
-    [field: SerializeField] public string id { get; private set; }
+    [field: SerializeField] public string id { get ; private set; }
 
     [Header("General")]
     public string displayName;
-    public string description;
 
     [Header("Requirements")]
-    public int playerLevel;
-    public QuestInfoSO[] questPrerequisits;
+    public int levelRequirement;
+    public QuestInfoSO[] questPrerequisets;
 
     [Header("Steps")]
-    public GameObject[] questStepPrefab;
+    public GameObject[] questStepPrefabs;
 
     [Header("Rewards")]
-    public int gold;
+    public int goldReward;
+    public int xpReward;
+    public InventoryItem[] itemReward;
 
     private void OnValidate()
     {
@@ -28,8 +29,4 @@ public class QuestInfoSO : ScriptableObject
         UnityEditor.EditorUtility.SetDirty(this);
         #endif
     }
-
-    public string questName;
-    public string questDescription;
-    public QuestObjective[] objectives;
 }

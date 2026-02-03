@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27e539c9ecb45e4d8b3dbe50828fed6, type: 3}
+  m_Name: SpectralKnightData
+  m_EditorClassIdentifier: 
+  characterName: Spectral Knight
+  baseStats: {fileID: 11400000, guid: b93310584e03d224fafd3cd0f9f5c8d2, type: 2}
+  characterType: 2
+  characterModel: {fileID: 9195874179072053707, guid: 9379607446ceda542b00b67410f720f5,
+    type: 3}
+  brain: {fileID: 425697180858251729, guid: 71144714adba1ba45b3090386d58af6a, type: 3}

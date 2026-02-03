@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class Quest
 {
-    public QuestInfoSO info;
-    public QuestState state;
+    public QuestInfoSO questInfo;
+    public QuestState questState;
     public int currentQuestStepIndex;
 
     public Quest(QuestInfoSO questInfo)
     {
-        this.info = questInfo;
-        this.state = QuestState.REQUIREMENTS_NOT_MET;
-        currentQuestStepIndex = 0;
+        this.questInfo = questInfo;
+        this.questState = QuestState.REQUIREMENTS_NOT_MET;
+        this.currentQuestStepIndex = 0;
     }
 
-    public void MoveToNextStep()
+    public void MoveToNexrStep()
     {
         currentQuestStepIndex++;
     }
 
     public bool CurrentQuestStepExists()
     {
-        return (currentQuestStepIndex < info.questStepPrefab.Length);
+        return (currentQuestStepIndex < questInfo.questStepPrefabs.Length);
     }
 
     public void InstantiateCurrentQuestStep(Transform parentTransform)
@@ -31,7 +31,8 @@ public class Quest
 
         if(questStepPrefab != null)
         {
-            Object.Instantiate<GameObject>(questStepPrefab, parentTransform);
+            QuestStep questStep = Object.Instantiate<GameObject>(questStepPrefab, parentTransform).GetComponent<QuestStep>();
+            questStep.InitializeQuestStep(questInfo.id);
         }
     }
 
@@ -39,14 +40,9 @@ public class Quest
     {
         GameObject questStepPrefab = null;
 
-        if (CurrentQuestStepExists())
+        if(CurrentQuestStepExists()) 
         {
-            questStepPrefab = info.questStepPrefab[currentQuestStepIndex];
-        }
-
-        else
-        {
-            Debug.LogWarning("Tried to get quest step prefab, but step index was out of range" + "quest ID" + info.id + "step ID" + currentQuestStepIndex);
+            questStepPrefab = questInfo.questStepPrefabs[currentQuestStepIndex];
         }
 
         return questStepPrefab;
